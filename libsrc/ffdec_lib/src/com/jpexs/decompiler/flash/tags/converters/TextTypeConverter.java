@@ -100,6 +100,12 @@ public class TextTypeConverter {
                 throw new IllegalArgumentException("defineTextVersion should be either 1 or 2");
         }
         List<TEXTRECORD> records = tag.getTextRecords(tag.getSwf(), new HashMap<>());
+        
+        int borderPadding = 40;
+        int moveX = tag.bounds.Xmin + borderPadding;
+        int moveY = tag.bounds.Ymin + borderPadding;
+        
+        boolean first = true;
         for (TEXTRECORD rec : records) {
             if (defineTextVersion == 1 && rec.textColorA != null) {
                 rec.textColor = new RGB(rec.textColorA);
@@ -108,8 +114,24 @@ public class TextTypeConverter {
             if (defineTextVersion == 2 && rec.textColor != null) {
                 rec.textColorA = new RGBA(rec.textColor);
                 rec.textColor = null;
-            }
+            }  
+            
+            if (first) {
+                rec.styleFlagsHasXOffset = true;
+                rec.xOffset += moveX;
+                rec.styleFlagsHasYOffset = true;
+                rec.yOffset += moveY;
+                first = false;
+            } else {                     
+                if (rec.styleFlagsHasXOffset) {
+                    rec.xOffset += moveX;
+                }
+                if (rec.styleFlagsHasYOffset) {
+                    rec.yOffset += moveY;
+                }
+            }            
         }
+                        
         ret.textRecords = records;
         ret.textMatrix = new MATRIX();        
         ExportRectangle bounds = ret.calculateTextBounds();
@@ -134,6 +156,8 @@ public class TextTypeConverter {
         @SuppressWarnings("unchecked")
         List<Integer> letterSpacings = (List<Integer>) attrs.get("allLetterSpacings");
        
+        int leftMargin = leftMargins.isEmpty() ? 0 : leftMargins.get(0);
+        
         det.bounds = new RECT(tag.getBounds());
         det.wasStatic = true;
         det.noSelect = true;
@@ -143,7 +167,7 @@ public class TextTypeConverter {
         det.hasLayout = true;
         det.align = DefineEditTextTag.ALIGN_LEFT;
         det.indent = (int) attrs.get("indent");
-        det.leftMargin = leftMargins.isEmpty() ? 0 : leftMargins.get(0);
+        det.leftMargin = 0;
         det.leading = (int) attrs.get("lineSpacing");
         det.rightMargin = (int) attrs.get("rightMargin");
 
@@ -251,7 +275,7 @@ public class TextTypeConverter {
         }
         
         ExportRectangle bounds = det.calculateTextBounds();
-        det.bounds = new RECT((int) Math.round(bounds.xMin), (int) Math.round(bounds.xMax), (int) Math.round(bounds.yMin), (int) Math.round(bounds.yMax));
+        det.bounds = new RECT((int) Math.round(bounds.xMin + leftMargin), (int) Math.round(bounds.xMax + leftMargin), (int) Math.round(bounds.yMin), (int) Math.round(bounds.yMax));
 
         return det;
     }
