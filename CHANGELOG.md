@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [26.1.0] - 2026-05-24
+### Features
+- ui: redetect scale factor on each launch when not set in config ([PR260])
+
 ## [26.0.0] - 2026-04-06
 ### Features
 - redesigned loop detector ([#2542])
@@ -4064,6 +4068,7 @@ Major version of SWF to XML export changed to 2.
 ### Added
 - Initial public release
 
+[26.1.0]: https://github.com/jindrapetrik/jpexs-decompiler/compare/version26.0.0...version26.1.0
 [26.0.0]: https://github.com/jindrapetrik/jpexs-decompiler/compare/version25.1.3...version26.0.0
 [25.1.3]: https://github.com/jindrapetrik/jpexs-decompiler/compare/version25.1.2...version25.1.3
 [25.1.2]: https://github.com/jindrapetrik/jpexs-decompiler/compare/version25.1.1...version25.1.2
@@ -5555,6 +5560,7 @@ Major version of SWF to XML export changed to 2.
 [#32]: https://www.free-decompiler.com/flash/issues/32
 [#31]: https://www.free-decompiler.com/flash/issues/31
 [#27]: https://www.free-decompiler.com/flash/issues/27
+[PR260]: https://github.com/jindrapetrik/jpexs-decompiler/pull/260
 [PR228]: https://github.com/jindrapetrik/jpexs-decompiler/pull/228
 [PR224]: https://github.com/jindrapetrik/jpexs-decompiler/pull/224
 [PR222]: https://github.com/jindrapetrik/jpexs-decompiler/pull/222
